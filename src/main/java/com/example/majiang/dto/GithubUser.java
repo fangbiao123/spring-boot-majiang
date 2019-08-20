@@ -3,7 +3,7 @@ package com.example.majiang.dto;
 public class GithubUser {
     private int id;
     private String name;
-    private String tupe;
+    private String type;
 
     public int getId() {
         return id;
@@ -21,11 +21,11 @@ public class GithubUser {
         this.name = name;
     }
 
-    public String getTupe() {
-        return tupe;
+    public String gettype() {
+        return type;
     }
 
-    public void setTupe(String tupe) {
-        this.tupe = tupe;
+    public void settype(String type) {
+        this.type = type;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.majiang.controller;
 
 import com.example.majiang.dto.AccessTokenDTO;
+import com.example.majiang.dto.GithubUser;
 import com.example.majiang.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,25 +35,8 @@ public class Index {
         return "index";
     }
 
-    @Autowired
-    private GithubProvider githubProvider;
 
 
-    @ResponseBody
-    @RequestMapping("/callback")
-    public String AuthCallback(@RequestParam(name="code" ) String code, @RequestParam(name="state") String state){
-        if(StringUtils.isEmpty(code)){
-            return "授权失败";
-        }
-        String callback_code = "code:"+ code + "\nstate:" + state;
 
-        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
-        accessTokenDTO.setClient_id(client_id);
-        accessTokenDTO.setClient_secret(client_secret);
-        accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedicret_uri(redirect_uri);
-        accessTokenDTO.setState(state);
-        githubProvider.getAccessToken(accessTokenDTO);
-        return callback_code;
-    }
+
 }
