@@ -2,6 +2,7 @@ package com.example.majiang.controller;
 
 import com.example.majiang.mapper.UserMapper;
 import com.example.majiang.model.User;
+import com.mysql.cj.jdbc.SuspendableXAConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,12 @@ public class Test {
     @GetMapping("/sql")
     public String sql(){
         User u = userMapper.getById(31725392);
-
+        if(u != null){
+            System.out.println("存在");
+        }else{
+            System.out.println("不存在！");
+        }
+        System.out.println(u.getAvatar_url());
         return "111";
     }
 }
