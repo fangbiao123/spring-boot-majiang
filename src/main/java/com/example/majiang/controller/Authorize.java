@@ -2,6 +2,8 @@ package com.example.majiang.controller;
 
 import com.example.majiang.dto.AccessTokenDTO;
 import com.example.majiang.dto.GithubUser;
+import com.example.majiang.mapper.UserMapper;
+import com.example.majiang.model.User;
 import com.example.majiang.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,9 @@ public class Authorize {
     @Autowired
     private GithubProvider githubProvider;
 
+    @Autowired
+    private UserMapper userMapper;
+
 //    @ResponseBody
     @RequestMapping("/callback")
     public String AuthCallback(
@@ -51,7 +56,20 @@ public class Authorize {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(accessToken);
         if (user != null) {
-            //
+            User u = userMapper.getById(user.getId());
+            if(u != null){
+                // 插入数据库
+                User user1 = new User();
+                user1.setAvatar_url(user.getAvatar_url());
+                user1.setId(user.getId());
+                user1.setLogin(user.getLogin());
+                user1.setName(user.getName());
+                userMapper.insert(user1);
+            }else{
+                System.out.println("已经有用户信息！");
+            }
+
+            // 设置session
             request.getSession().setAttribute("user", user);
             return "redirect:/";
         }
