@@ -38,19 +38,21 @@ public class Index {
     public String index(Map<String, Object> map, HttpServletRequest request){
         // 获取cookie
         Cookie[] cookies = request.getCookies();
-        // 遍历cookie
-        for(Cookie cookie : cookies){
-            // 找到对应的key
-            System.out.println(cookie.getName());
-            if(cookie.getName().equals("id")){
-                System.out.println("get user ");
-                String id = cookie.getValue();
-                // 查询数据库是否有这个id
-                User user = userMapper.getById(Integer.parseInt(id));
-                if(user != null) {
-                    request.getSession().setAttribute("user", user);
+        if(cookies != null && cookies.length != 0) {
+            // 遍历cookie
+            for(Cookie cookie : cookies){
+                // 找到对应的key
+                System.out.println(cookie.getName());
+                if(cookie.getName().equals("id")){
+                    System.out.println("get user ");
+                    String id = cookie.getValue();
+                    // 查询数据库是否有这个id
+                    User user = userMapper.getById(Integer.parseInt(id));
+                    if(user != null) {
+                        request.getSession().setAttribute("user", user);
+                    }
+                    break;
                 }
-//                break;
             }
         }
 

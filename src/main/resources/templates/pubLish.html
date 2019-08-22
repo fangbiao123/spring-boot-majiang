@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/jquery/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="css/public.css">
+</head>
+<body>
+<!--<h1>index 页面</h1>-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">麻将社区</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                <!--<li><a href="#">Link</a></li>-->
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#">Action</a></li>-->
+                <!--<li><a href="#">Another action</a></li>-->
+                <!--<li><a href="#">Something else here</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">One more separated link</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">提交</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.user == null}"><a href="#"
+                                                       th:href="@{https://github.com/login/oauth/authorize(client_id=${client_id},redirect_url=${redirect_url},scope=${scope},state=${state})}">登录</a>
+                </li>
+                <li class="dropdown" th:if="${session.user != null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false" th:text="${session.user.getName()}">我的 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">详情</a></li>
+                        <li><a href="#">其它</a></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+
+
+</nav>
+<div class="container-fluid b-white m-20">
+    <div class="row">
+        <div class="col-md-9 " style="">
+            <h2>
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                发起
+            </h2>
+            <form onsubmit="return fromSubmit(this);">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">问题标题</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="title" placeholder="发布问题。。。">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">问题补充</label>
+                    <textarea class="form-control" id="exampleInputPassword1" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputFile">添加标签</label>
+                    <input type="text" class="form-control" id="exampleInputFile" name="tag" placeholder="标签，已，分隔">
+                </div>
+
+                <button type="submit" class="btn btn-success">发布</button>
+            </form>
+        </div>
+        <div class="col-md-3 b-white" >
+            <h4>问题发起指南</h4>
+            · 问题清新：不得超过25个字。<br/>
+            · 问题补充：详细补充你的问题。<br/>
+            · 选择标签：选择一个或多个标签，用"，"隔开。每个标签不能超过10个字。<br/>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function fromSubmit(t){
+        var title = $(t).find("input[name='title']").val();
+        var description = $(t).find("textarea[name='description']").val();
+        var tag = $(t).find("input[name='tag']").val();
+        if (!title){
+            alert("标题不能为空！");
+            return false;
+        }
+        // if (!description){
+        //     alert("详情不能为空！");
+        //     return false;
+        // }
+        // if (!tag){
+        //     alert("标签不能为空！");
+        //     return false;
+        // }
+        $.ajax({
+            url:"/publish",
+            type: "post",
+            data:{
+                title: title,
+                description: description,
+                tag: tag
+            },
+            success: function(response){
+                console.log(response);
+                alert(response.msg);
+
+            },
+            error: function(e){
+                console.log(e);
+            },
+            dataType:"json"
+        });
+        return false;
+    }
+</script>
+</html>

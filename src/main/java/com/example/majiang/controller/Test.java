@@ -2,7 +2,6 @@ package com.example.majiang.controller;
 
 import com.example.majiang.mapper.UserMapper;
 import com.example.majiang.model.User;
-import com.mysql.cj.jdbc.SuspendableXAConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +18,10 @@ public class Test {
     private UserMapper userMapper;
 
     @GetMapping("/index")
-    public String index(@RequestParam(name = "name") String name, Model model){
-
+    public String index(String name, Model model){
+        System.out.println(System.currentTimeMillis()/1000);
         model.addAttribute("name", name);
-        return "test";
+        return "test/test";
     }
 
     @ResponseBody
