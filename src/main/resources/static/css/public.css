@@ -10,3 +10,8 @@ body {
 .b-white{
     background: #fff;
 }
+.text-color-999{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}

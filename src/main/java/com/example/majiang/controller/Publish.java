@@ -89,7 +89,7 @@ public class Publish {
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
-        question.setGmtCreate(System.currentTimeMillis()/1000);
+        question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
         question.setCreator(user.getId());
 

@@ -12,4 +12,5 @@ public interface UserMapper {
     @Select("select * from github_user where id = #{id}")
     User getById(int id);
 
+
 }
