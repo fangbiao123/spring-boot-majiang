@@ -34,13 +34,13 @@
                 <li th:if="${session.user == null}"><a href="#" th:href="@{https://github.com/login/oauth/authorize(client_id=${client_id},redirect_url=${redirect_url},scope=${scope},state=${state})}">登录</a></li>
                 <li class="dropdown" th:if="${session.user != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span th:text="${session.user.getName()}"></span>
+                        <span th:text="${session.user.name}"></span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#">详情</a></li>
                         <li><a href="#">其它</a></li>
-                        <li><a href="#">退出登录</a></li>
+                        <li><a href="#" th:href="@{/logout}">退出登录</a></li>
                     </ul>
                 </li>
             </ul>

@@ -5,20 +5,18 @@ import com.example.majiang.dto.GithubUser;
 import com.example.majiang.mapper.UserMapper;
 import com.example.majiang.model.User;
 import com.example.majiang.provider.GithubProvider;
+import com.example.majiang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Controller
 public class Authorize {
@@ -37,6 +35,9 @@ public class Authorize {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
 
 //    @ResponseBody
     @RequestMapping("/callback")
@@ -63,20 +64,8 @@ public class Authorize {
         // 判断用户信息是否为空
         if (user != null) {
             System.out.println("id: "+ user.getId());
-            // 查询用户是否已经存入数据库
-            User u = userMapper.getById(user.getId());
-            if(u == null){
-                // 插入数据库
-                User user1 = new User();
-                user1.setAvatar_url(user.getAvatar_url());
-                user1.setId(user.getId());
-                user1.setLogin(user.getLogin());
-                user1.setName(user.getName());
-                userMapper.insert(user1);
-            }else{
-                System.out.println("已经有用户信息！");
-            }
-
+            // 判断用户是否已经存入数据库
+            userService.UserAddOrUpdate(user);
             // 设置session （会在重启服务器的时候失去用户登录状态所以改用cookie）
 //            request.getSession().setAttribute("user", user);
             // 设置cookie
@@ -84,6 +73,20 @@ public class Authorize {
             return "redirect:/";
         }
 
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+         // 删除session
+        request.getSession().removeAttribute("user");
+        // 删除cookie
+        Cookie cookie = new Cookie("id", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 }

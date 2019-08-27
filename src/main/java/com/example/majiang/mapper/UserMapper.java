@@ -3,6 +3,7 @@ package com.example.majiang.mapper;
 import com.example.majiang.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 public interface UserMapper {
 
@@ -12,5 +13,6 @@ public interface UserMapper {
     @Select("select * from github_user where id = #{id}")
     User getById(int id);
 
-
+    @Update("update github_user set avatar_url=#{avatar_url}, name=#{name} where id = #{id}")
+    void update(User user);
 }

@@ -10,7 +10,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,5 +96,30 @@ public class QuestionService {
 
         return paginationDTO;
 
+    }
+
+    public QuestionDTO getById(Integer id) {
+        Question byId = questionMapper.getById(id);
+        if(byId == null){
+            return null;
+        }
+        User user = userMapper.getById(byId.getCreator());
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(byId, questionDTO);
+        if(user != null){
+            questionDTO.setUser(user);
+            questionDTO.setAvatar_url(user.getAvatar_url());
+        }
+
+        return questionDTO;
+    }
+
+    public void addOrUpdate(Question question) {
+
+        if(question.getId() == null){
+            questionMapper.insertQuestion(question);
+        }else{
+            questionMapper.update(question);
+        }
     }
 }

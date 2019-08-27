@@ -1,5 +1,6 @@
 package com.example.majiang.dto;
 
+import com.example.majiang.model.User;
 import lombok.Data;
 
 @Data
@@ -15,4 +16,5 @@ public class QuestionDTO {
     private Integer commentCount;
     private Integer likeCount;
     private String avatar_url;
+    private User user;
 }
