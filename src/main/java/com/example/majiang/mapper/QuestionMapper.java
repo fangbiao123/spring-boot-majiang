@@ -4,7 +4,6 @@ import com.example.majiang.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
-import javax.websocket.server.ServerEndpoint;
 import java.util.List;
 
 public interface QuestionMapper {
@@ -17,4 +16,9 @@ public interface QuestionMapper {
     @Select("select count(1) from question")
     Integer count();
 
+    @Select("select * from question where creator = #{userId} limit #{offset},#{limit}")
+    List<Question> listByUserId(Integer userId, Integer offset, Integer limit);
+
+    @Select("select count(1) from question where creator =  #{userId}")
+    Integer countByUserId(Integer userId);
 }
