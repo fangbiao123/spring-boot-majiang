@@ -22,6 +22,7 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question where creator =  #{userId}")
     Integer countByUserId(Integer userId);
+
     @Select("select * from question where id =  #{id}")
     Question getById(Integer id);
 
@@ -30,4 +31,7 @@ public interface QuestionMapper {
 
     @Update("update question set viewCount= viewCount + 1 where id = #{id}")
     void addViewCount(Integer id);
+
+    @Update("update question set commentCount= commentCount + 1 where id = #{id}")
+    void addCommentCount(Integer id);
 }

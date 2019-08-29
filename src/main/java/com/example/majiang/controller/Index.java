@@ -1,6 +1,8 @@
 package com.example.majiang.controller;
 
 import com.example.majiang.dto.PaginationDTO;
+import com.example.majiang.exception.CoustomizeMessage;
+import com.example.majiang.exception.CustomizeException;
 import com.example.majiang.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +48,7 @@ public class Index {
         model.addAttribute("pagination",pagination);
 //        if(map.get("client_id") != "123"){
 //
-//            throw new RuntimeException("mock user detail exception.");
+//            throw new CustomizeException(CoustomizeMessage.SYSTEM_ERROR);
 //        }
         return "index";
     }
