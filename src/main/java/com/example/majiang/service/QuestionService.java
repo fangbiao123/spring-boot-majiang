@@ -2,6 +2,8 @@ package com.example.majiang.service;
 
 import com.example.majiang.dto.PaginationDTO;
 import com.example.majiang.dto.QuestionDTO;
+import com.example.majiang.exception.CoustomizeMessage;
+import com.example.majiang.exception.CustomizeException;
 import com.example.majiang.mapper.QuestionMapper;
 import com.example.majiang.mapper.UserMapper;
 import com.example.majiang.model.Question;
@@ -101,7 +103,7 @@ public class QuestionService {
     public QuestionDTO getById(Integer id) {
         Question byId = questionMapper.getById(id);
         if(byId == null){
-            return null;
+            throw new CustomizeException(CoustomizeMessage.QUESTION_NOT_FOUND);
         }
         User user = userMapper.getById(byId.getCreator());
         QuestionDTO questionDTO = new QuestionDTO();
@@ -121,5 +123,10 @@ public class QuestionService {
         }else{
             questionMapper.update(question);
         }
+    }
+
+    public void addView(Integer id) {
+
+        questionMapper.addViewCount(id);
     }
 }

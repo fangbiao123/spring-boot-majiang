@@ -23,6 +23,7 @@ public class QuestionDetailController {
 
         QuestionDTO byId = questionService.getById(id);
         model.addAttribute("question",byId);
+        questionService.addView(byId.getId());
 
         return "questionDetail";
     }

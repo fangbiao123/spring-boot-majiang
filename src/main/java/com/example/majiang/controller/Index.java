@@ -44,6 +44,10 @@ public class Index {
         // 获取列表
         PaginationDTO pagination = questionService.list(page, limit);
         model.addAttribute("pagination",pagination);
+//        if(map.get("client_id") != "123"){
+//
+//            throw new RuntimeException("mock user detail exception.");
+//        }
         return "index";
     }
 
